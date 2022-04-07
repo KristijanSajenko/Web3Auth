@@ -22,6 +22,7 @@
 <script lang="ts">
 import { ADAPTER_STATUS, CHAIN_NAMESPACES, CONNECTED_EVENT_DATA, CustomChainConfig, LoginMethodConfig, WALLET_ADAPTERS } from "@web3auth/base";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
+import { SolletAdapter, SolletExtensionAdapter } from "@web3auth/sollet-adapter";
 import { Web3Auth } from "@web3auth/web3auth";
 import Vue from "vue";
 
@@ -112,7 +113,10 @@ export default Vue.extend({
             clientId: config.clientId,
           },
         });
-
+        const solletAdapter = new SolletAdapter();
+        const solletExtensionAdapter = new SolletExtensionAdapter();
+        this.web3auth.configureAdapter(solletAdapter);
+        this.web3auth.configureAdapter(solletExtensionAdapter);
         this.web3auth.configureAdapter(openloginAdapter);
         this.subscribeAuthEvents(this.web3auth);
         await this.web3auth.initModal({
